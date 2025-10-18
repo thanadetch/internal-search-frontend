@@ -64,7 +64,7 @@ export const SearchForm = ({properties, onSearch, isLoading}: SearchFormProps) =
         propertyTypeOptions,
         postTypeOptions,
         postFromTypeOptions,
-        bedRoomOptions,
+        bedroomOptions,
         bathroomOptions,
         availabilityOptions,
         updateAvailabilityOptions
@@ -218,7 +218,7 @@ export const SearchForm = ({properties, onSearch, isLoading}: SearchFormProps) =
                                         {...field}
                                         multiple
                                         size={size}
-                                        options={bedRoomOptions}
+                                        options={bedroomOptions}
                                         renderInput={(params) => (
                                             <TextField {...params} label="Bedroom" placeholder="Bedroom"/>
                                         )}

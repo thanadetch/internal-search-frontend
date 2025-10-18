@@ -8,6 +8,9 @@ import {usePropertyOptions} from "@/hooks/usePropertyOptions";
 import useGetAllListings from "@/hooks/useGetAllListings";
 import Typography from "@mui/material/Typography";
 import dayjs from "dayjs";
+import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 
 interface PropertyFormProps {
     register: UseFormRegister<Property>;
@@ -23,36 +26,62 @@ export const PropertyEditForm = ({control, property, register}: PropertyFormProp
         projectNameOptions,
         propertyTypeOptions,
         postFromTypeOptions,
+        postTypeOptions,
+        bedroomOptions,
+        bathroomOptions,
+        facingDirectionOptions
     } = usePropertyOptions(data || []);
     const updateAvailabilityText = property.updateAvailability ? dayjs(property.updateAvailability)?.format("DD/MM/YYYY HH:mm:ss") : "-";
 
     return (
-        <Grid container spacing={2}>
+        <Grid container spacing={3}>
+            {/* PROPERTY INFORMATION SECTION */}
             <Grid size={12}>
+                <Typography fontWeight={500} color="primary">
+                    Property Information
+                </Typography>
+            </Grid>
+
+            {/* Property Type */}
+            <Grid size={{xs: 12, sm: 6}}>
                 <Controller
-                    name="titleEN"
+                    name="propertyType"
                     control={control}
                     render={({field: {onChange, ...field}}) => (
                         <Autocomplete
                             {...field}
-                            {...getVirtualizedAutocompleteConfig()}
-                            disableCloseOnSelect
                             size={size}
-                            freeSolo
-                            renderOption={(props, option, state) =>
-                                [props, option, state.index] as React.ReactNode
-                            }
-                            options={projectNameOptions}
+                            options={propertyTypeOptions}
                             renderInput={(params) => (
-                                <TextField{...params} label="Project Name" placeholder="Project Name"/>
+                                <TextField {...params} label="Property Type" placeholder="Property Type" required/>
                             )}
                             onChange={(e, data) => onChange(data)}
-                            onKeyUp={(event) => onChange((event.target as any).value)}
                         />
                     )}
                 />
             </Grid>
-            <Grid size={6}>
+
+            {/* Post Type */}
+            <Grid size={{xs: 12, sm: 6}}>
+                <Controller
+                    name="postType"
+                    control={control}
+                    render={({field: {onChange, ...field}}) => (
+                        <Autocomplete
+                            {...field}
+                            size={size}
+                            options={postTypeOptions}
+                            renderInput={(params) => (
+                                <TextField {...params} label="Post Type" placeholder="Post Type" required/>
+                            )}
+                            onChange={(e, data) => onChange(data)}
+                        />
+                    )}
+                />
+            </Grid>
+
+            {/* Post From */}
+            <Grid size={{xs: 12, sm: 6}}>
                 <Controller
                     name="postFrom"
                     control={control}
@@ -69,100 +98,273 @@ export const PropertyEditForm = ({control, property, register}: PropertyFormProp
                     )}
                 />
             </Grid>
-            <Grid size={6}>
+
+            {/* Title EN */}
+            <Grid size={{xs: 12, sm: 6}}>
                 <Controller
-                    name="propertyType"
+                    name="titleEN"
+                    control={control}
+                    render={({field: {onChange, ...field}}) => (
+                        <Autocomplete
+                            {...field}
+                            {...getVirtualizedAutocompleteConfig()}
+                            disableCloseOnSelect
+                            size={size}
+                            freeSolo
+                            renderOption={(props, option, state) =>
+                                [props, option, state.index] as React.ReactNode
+                            }
+                            options={projectNameOptions}
+                            renderInput={(params) => (
+                                <TextField {...params} label="Title EN" placeholder="Title EN"/>
+                            )}
+                            onChange={(e, data) => onChange(data)}
+                            onKeyUp={(event) => onChange((event.target as any).value)}
+                        />
+                    )}
+                />
+            </Grid>
+
+            {/* Price */}
+            <Grid size={{xs: 12, sm: 6}}>
+                <TextField {...register("price", {valueAsNumber: true})}
+                           type="number"
+                           label="Price"
+                           variant="outlined"
+                           size={size}
+                           fullWidth/>
+            </Grid>
+
+            {/* Area Size */}
+            <Grid size={{xs: 12, sm: 6}}>
+                <TextField {...register("areaSize", {valueAsNumber: true})}
+                           type="number"
+                           label="Area Size"
+                           variant="outlined"
+                           size={size}
+                           fullWidth/>
+            </Grid>
+
+            {/* Floor */}
+            <Grid size={{xs: 12, sm: 6}}>
+                <TextField {...register("floor")}
+                           label="Floor"
+                           variant="outlined"
+                           size={size}
+                           fullWidth/>
+            </Grid>
+
+            {/* Bedroom */}
+            <Grid size={{xs: 12, sm: 6}}>
+                <Controller
+                    name="bedroom"
                     control={control}
                     render={({field: {onChange, ...field}}) => (
                         <Autocomplete
                             {...field}
                             size={size}
-                            options={propertyTypeOptions}
+                            options={bedroomOptions}
                             renderInput={(params) => (
-                                <TextField {...params} label="Property Type" placeholder="Property Type"/>
+                                <TextField {...params} label="Bedroom" placeholder="Select Bedroom"/>
                             )}
                             onChange={(e, data) => onChange(data)}
                         />
                     )}
                 />
-
             </Grid>
-            <Grid size={6}>
-                <TextField {...register("bedroom", {valueAsNumber: true})}
-                           type={"number"}
-                           label="Bedroom"
+
+            {/* Bathroom */}
+            <Grid size={{xs: 12, sm: 6}}>
+                <Controller
+                    name="bathroom"
+                    control={control}
+                    render={({field: {onChange, ...field}}) => (
+                        <Autocomplete
+                            {...field}
+                            size={size}
+                            options={bathroomOptions}
+                            renderInput={(params) => (
+                                <TextField {...params} label="Bathroom" placeholder="Select Bathroom"/>
+                            )}
+                            onChange={(e, data) => onChange(data)}
+                        />
+                    )}
+                />
+            </Grid>
+
+            {/* Facing Direction */}
+            <Grid size={{xs: 12, sm: 6}}>
+                <Controller
+                    name="facingDirection"
+                    control={control}
+                    render={({field: {onChange, ...field}}) => (
+                        <Autocomplete
+                            {...field}
+                            size={size}
+                            options={facingDirectionOptions}
+                            renderInput={(params) => (
+                                <TextField {...params} label="Facing Direction" placeholder="Select Facing Direction"/>
+                            )}
+                            onChange={(e, data) => onChange(data)}
+                        />
+                    )}
+                />
+            </Grid>
+
+            {/* Unit Number */}
+            <Grid size={{xs: 12, sm: 6}}>
+                <TextField {...register("unitNumber")}
+                           label="Unit Number"
                            variant="outlined"
                            size={size}
                            fullWidth/>
             </Grid>
-            <Grid size={6}>
-                <TextField {...register("bathroom", {valueAsNumber: true})}
-                           type={"number"}
-                           label="Bathroom"
+
+            {/* Building Year */}
+            <Grid size={{xs: 12, sm: 6}}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <Controller
+                        name="buildingYear"
+                        control={control}
+                        render={({field: {onChange, value, ...field}}) => (
+                            <DatePicker
+                                {...field}
+                                label="Building Year"
+                                views={['year']}
+                                value={value ? dayjs().year(value) : null}
+                                onChange={(newValue) => {
+                                    onChange(newValue ? newValue.year() : null);
+                                }}
+                                slotProps={{
+                                    textField: {
+                                        size: size,
+                                        fullWidth: true,
+                                        variant: "outlined"
+                                    }
+                                }}
+                            />
+                        )}
+                    />
+                </LocalizationProvider>
+            </Grid>
+
+            {/* CONTACT INFORMATION SECTION */}
+            <Grid size={12}>
+                <Typography fontWeight={500} color="primary">
+                    Contact Information
+                </Typography>
+            </Grid>
+
+            {/* Name */}
+            <Grid size={{xs: 12, sm: 6}}>
+                <TextField {...register("name")}
+                           label="Name"
                            variant="outlined"
                            size={size}
                            fullWidth/>
             </Grid>
-            <Grid container size={12}>
-                <Grid size={6}>
-                    <TextField {...register("unitNumber")}
-                               label="Unit Number"
-                               variant="outlined"
-                               size={size}
-                               fullWidth/>
-                </Grid>
-                <Grid size={6}>
-                    <TextField {...register("floor")}
-                               label="Floor"
-                               variant="outlined"
-                               size={size}
-                               fullWidth/>
-                </Grid>
-                <Grid size={6}>
-                    <TextField {...register("price", {valueAsNumber: true})}
-                               type={"number"}
-                               label="Price"
-                               variant="outlined"
-                               size={size}
-                               fullWidth/>
 
-                </Grid>
-                <Grid size={6}>
-                    <TextField {...register("areaSize", {valueAsNumber: true})}
-                               label="Area Size"
-                               variant="outlined"
-                               size={size}
-                               fullWidth/>
+            {/* Email */}
+            <Grid size={{xs: 12, sm: 6}}>
+                <TextField {...register("email")}
+                           type="email"
+                           label="Email"
+                           variant="outlined"
+                           size={size}
+                           fullWidth/>
+            </Grid>
 
-                </Grid>
+            {/* Tel */}
+            <Grid size={{xs: 12, sm: 6}}>
+                <TextField {...register("tel")}
+                           label="Tel."
+                           variant="outlined"
+                           size={size}
+                           fullWidth/>
+            </Grid>
 
-                <Grid size={6} className={"flex item-center"}>
-                    <Controller
-                        name="petAllowed"
-                        control={control}
-                        render={({field: {onChange, value, ...field}}) => (
-                            <FormControlLabel control={<Checkbox {...field} checked={!!value}
-                                                                 onChange={event => onChange(event.target.checked)}/>}
-                                              label="Pet Allowed"/>
-                        )}
-                    />
-                </Grid>
-                <Grid size={6} className={"flex item-center"}>
-                    <Controller
-                        name="exclusive"
-                        control={control}
-                        render={({field: {onChange, value, ...field}}) => (
-                            <FormControlLabel control={<Checkbox {...field} checked={!!value}
-                                                                 onChange={event => onChange(event.target.checked)}/>}
-                                              label="Exclusive"/>
-                        )}
-                    />
-                </Grid>
-                <Grid size={12}>
-                    <Typography>
-                        Last Updated: {updateAvailabilityText}
-                    </Typography>
-                </Grid>
+            {/* Line ID */}
+            <Grid size={{xs: 12, sm: 6}}>
+                <TextField {...register("lineId")}
+                           label="Line ID"
+                           variant="outlined"
+                           size={size}
+                           fullWidth/>
+            </Grid>
+
+            {/* Whatsapp */}
+            <Grid size={{xs: 12, sm: 6}}>
+                <TextField {...register("whatsapp")}
+                           label="Whatsapp"
+                           variant="outlined"
+                           size={size}
+                           fullWidth/>
+            </Grid>
+
+            {/* Facebook Messenger */}
+            <Grid size={{xs: 12, sm: 6}}>
+                <TextField {...register("facebookMessenger")}
+                           label="Facebook Messenger"
+                           variant="outlined"
+                           size={size}
+                           fullWidth/>
+            </Grid>
+
+            {/* Wechat */}
+            <Grid size={{xs: 12, sm: 6}}>
+                <TextField {...register("wechat")}
+                           label="Wechat"
+                           variant="outlined"
+                           size={size}
+                           fullWidth/>
+            </Grid>
+
+            <Grid/>
+
+            {/* Pet Allowed */}
+            <Grid size={{xs: 6}} className="flex items-center">
+                <Controller
+                    name="petAllowed"
+                    control={control}
+                    render={({field: {onChange, value, ...field}}) => (
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    {...field}
+                                    checked={!!value || value === "Allow"}
+                                    onChange={event => onChange(event.target.checked ? "Allow" : "")}
+                                />
+                            }
+                            label="Pet Allowed"
+                        />
+                    )}
+                />
+            </Grid>
+
+            {/* Exclusive */}
+            <Grid size={{xs: 6}} className="flex items-center">
+                <Controller
+                    name="exclusive"
+                    control={control}
+                    render={({field: {onChange, value, ...field}}) => (
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    {...field}
+                                    checked={!!value || value === "Exclusive"}
+                                    onChange={event => onChange(event.target.checked ? "Exclusive" : "")}
+                                />
+                            }
+                            label="Exclusive"
+                        />
+                    )}
+                />
+            </Grid>
+
+            <Grid size={12}>
+                <Typography>
+                    Last Updated: {updateAvailabilityText}
+                </Typography>
             </Grid>
         </Grid>
     );

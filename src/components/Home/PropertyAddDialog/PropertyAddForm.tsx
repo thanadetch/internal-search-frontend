@@ -1,5 +1,4 @@
 import {Property} from "@/types/listing";
-import {AvailabilityType} from "@/types/availability";
 import {Autocomplete, Checkbox, FormControlLabel, TextField, Grid, Typography} from "@mui/material";
 import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
@@ -30,19 +29,11 @@ export const PropertyAddForm = ({control, register}: PropertyAddFormProps) => {
         areaLPOptions,
         areaLVOptions,
         postTypeOptions,
+        facingDirectionOptions,
+        bedroomOptions,
+        bathroomOptions,
+        availabilityOptions
     } = usePropertyOptions(data || []);
-
-    // Create availability options from AvailabilityType enum
-    const availabilityOptions = Object.values(AvailabilityType);
-
-    // Create bedroom options with Studio and 1-10
-    const bedroomOptions = ['Studio', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
-
-    // Create bathroom options with 1-10
-    const bathroomOptions = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
-
-    // Create facing direction options with 8 directions
-    const facingDirectionOptions = ['North', 'Northeast', 'East', 'Southeast', 'South', 'Southwest', 'West', 'Northwest'];
 
     return (
         <Grid container spacing={3}>

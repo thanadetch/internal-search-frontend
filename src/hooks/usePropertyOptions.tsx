@@ -11,10 +11,11 @@ export const usePropertyOptions = (properties: Property[]) => {
     const propertyTypeOptions: PropertyType[] = Object.values(PropertyType);
     const postTypeOptions: PostType[] = Object.values(PostType);
     const postFromTypeOptions: PostFromType[] = Object.values(PostFromType);
-    const bedRoomOptions = ["Studio", ...new Array(3).fill(0).map((_, index) => (index + 1).toString())];
+    const bedroomOptions = ["Studio", ...new Array(3).fill(0).map((_, index) => (index + 1).toString())];
     const bathroomOptions = new Array(3).fill(0).map((_, index) => (index + 1).toString());
     const availabilityOptions = Object.values(AvailabilityType);
     const updateAvailabilityOptions = Object.values(UpdateAvailabilityType);
+    const facingDirectionOptions = ['North', 'Northeast', 'East', 'Southeast', 'South', 'Southwest', 'West', 'Northwest'];
 
     return {
         skuOptions,
@@ -24,9 +25,10 @@ export const usePropertyOptions = (properties: Property[]) => {
         propertyTypeOptions,
         postTypeOptions,
         postFromTypeOptions,
-        bedRoomOptions,
+        bedroomOptions,
         bathroomOptions,
         availabilityOptions,
-        updateAvailabilityOptions
+        updateAvailabilityOptions,
+        facingDirectionOptions
     }
 };
