@@ -202,7 +202,8 @@ export const PropertyAddForm = ({control, register}: PropertyAddFormProps) => {
                            label="Area Size"
                            variant="outlined"
                            size={size}
-                           fullWidth/>
+                           fullWidth
+                           slotProps={{htmlInput: {step: "any"}}}/>
             </Grid>
 
             {/* Floor */}
